@@ -3,6 +3,7 @@ package cz.radovanholik.library;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.util.Log;
 
 import cz.radovanholik.library.listeners.ConnectivityChangeListener;
 import cz.radovanholik.library.receivers.NetworkChangeReceiver;
@@ -12,6 +13,16 @@ import cz.radovanholik.library.receivers.NetworkChangeReceiver;
  */
 
 public class ConnectivityInformer {
+
+    /**
+     * Constants
+     */
+    public static final String NOT_INITIALIZED = "Not initialized.";
+
+    /**
+     * Logic vars
+     */
+    private boolean mIsInitialized = false;
 
     /**
      * Other vars
@@ -28,21 +39,26 @@ public class ConnectivityInformer {
     }
 
     public void init(Context context) {
-        System.out.println("init");
-        mNetworkChangeReceiver = new NetworkChangeReceiver();
+        mNetworkChangeReceiver = new NetworkChangeReceiver(context);
         registerReceiver(context);
+        mIsInitialized = true;
     }
 
-    public boolean addConnectivityChangeListener(ConnectivityChangeListener listener) {
-        return mNetworkChangeReceiver.getConnectivityChangeListeners().add(listener);
+    public void addConnectivityChangeListener(ConnectivityChangeListener listener) {
+        if(mIsInitialized) mNetworkChangeReceiver.getConnectivityChangeListeners().add(listener);
+        else Log.e(getClass().getSimpleName(), NOT_INITIALIZED);
     }
 
-    public boolean removeConnectivityChangeListener(ConnectivityChangeListener listener) {
-        return mNetworkChangeReceiver.getConnectivityChangeListeners().remove(listener);
+    public void removeConnectivityChangeListener(ConnectivityChangeListener listener) {
+        if(mIsInitialized) mNetworkChangeReceiver.getConnectivityChangeListeners().remove(listener);
+        else Log.e(getClass().getSimpleName(), NOT_INITIALIZED);
+    }
+
+    public boolean isInitialized(){
+        return mIsInitialized;
     }
 
     private void registerReceiver(Context context) {
-        //LocalBroadcastManager.getInstance(context).registerReceiver(mNetworkChangeReceiver, mFilter);
         context.registerReceiver(mNetworkChangeReceiver, mFilter);
     }
 }

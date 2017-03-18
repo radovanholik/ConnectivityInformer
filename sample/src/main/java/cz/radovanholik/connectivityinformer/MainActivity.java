@@ -2,7 +2,6 @@ package cz.radovanholik.connectivityinformer;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import cz.radovanholik.library.ConnectivityInformer;
 import cz.radovanholik.library.listeners.ConnectivityChangeListener;
@@ -29,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements ConnectivityChang
 
     @Override
     public void onNetworkConnectionChanged(boolean isConnected) {
-        Toast.makeText(this, "Moje knihovna funguje!", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Moje knihovna funguje!", Toast.LENGTH_SHORT).show();
+        System.out.println("connection " + isConnected);
     }
 }
