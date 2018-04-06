@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/radovanholik/ConnectivityInformer'
     gitUrl = 'https://github.com/radovanholik/ConnectivityInformer.git'
 
-    libraryVersion = '1.0.1'
+    libraryVersion = '1.0.2'
 
     developerId = 'radovanholik'
     developerName = 'Radovan Holík'
