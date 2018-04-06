@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 
+import java.util.Calendar;
 import java.util.HashSet;
 
 import cz.radovanholik.library.listeners.ConnectivityChangeListener;
@@ -31,8 +32,9 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         boolean isConnected = Utils.isInternetAvailable(context);
 
-        if (mLastConnectionValue != isConnected) {
+        if (mLastConnectionValue != isConnected || mLastKnownTimeStamp + 1000 < Calendar.getInstance().getTimeInMillis()) {
             mLastConnectionValue = isConnected;
+            mLastKnownTimeStamp = Calendar.getInstance().getTimeInMillis();
 
             for (ConnectivityChangeListener listener : mConnectivityChangeListeners) {
                 if (listener != null) {
