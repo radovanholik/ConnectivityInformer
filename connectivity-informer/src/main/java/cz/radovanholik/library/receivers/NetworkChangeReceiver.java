@@ -31,9 +31,13 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         boolean isConnected = Utils.isInternetAvailable(context);
 
-        for(ConnectivityChangeListener listener : mConnectivityChangeListeners){
-            if(listener != null){
-                listener.onNetworkConnectionChanged(isConnected);
+        if (mLastConnectionValue != isConnected) {
+            mLastConnectionValue = isConnected;
+
+            for (ConnectivityChangeListener listener : mConnectivityChangeListeners) {
+                if (listener != null) {
+                    listener.onNetworkConnectionChanged(isConnected);
+                }
             }
         }
     }
@@ -45,18 +49,19 @@ public class NetworkChangeReceiver extends BroadcastReceiver {
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
-
+            // TODO
         }
     };
 
     /**
-     * This method takes care about fast changing the network connection.
-     * e.g. when the user loses the wifi signal but is still connected to the mobile connection
-     * then there is a small time period in which the connection status is false and then
-     * switched back to true. The purpose of this method is to avoid calling connectivity change listener.
+     * This method takes care about fast changing network connection.
+     * e.g. when the device loses the wifi signal but it is still connected to the mobile connection
+     * then there might be a small time period in which the connection status is false and then
+     * switched back to true (behaves differently on different android versions).
+     * The purpose of this method is to avoid calling connectivity change listener.
      * @return
      */
     private void checkIfConnectionChanged(final Context context){
-
+        // TODO
     }
 }
